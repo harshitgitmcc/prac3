@@ -1,0 +1,200 @@
+Aggregate Functions
+1. Insert Collection and Display All Records
+# Select Database
+use Aggregate
+# Insert Documents
+db.col.insertMany([
+    {Name:"Romal",Age:17,City:"Mumbai",Salary:12000},
+    {Name:"Rohan",Age:22,City:"Thane",Salary:60000},
+    {Name:"Sujal",Age:19,City:"Mumbai",Salary:3000},
+    {Name:"Manav",Age:47,City:"Pune",Salary:55000},
+    {Name:"Ria",Age:34,City:"Mumbai",Salary:83000}
+])
+# Display All Records
+db.col.find()
+
+2. GROUP BY FUNCTION TO GET COUNT
+# Count Number of Employees in Each City
+
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$sum:1}
+        }
+    }
+])
+
+3. SUM FUNCTION
+# Find Total Salary of Employees in Each City
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$sum:"$Salary"}
+        }
+    }
+])
+4. AVG FUNCTION
+# Find Average Salary of Employees in Each City
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$avg:"$Salary"}
+        }
+    }
+])
+5. MIN FUNCTION
+# Find Minimum Salary in Each City
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$min:"$Salary"}
+        }
+    }
+])
+
+6. MAX FUNCTION
+# Find Maximum Salary in Each City
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$max:"$Salary"}
+        }
+    }
+])
+
+7. FIRST FUNCTION
+# Find First Salary in Each City
+
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$first:"$Salary"}
+        }
+    }
+])
+
+8. LAST FUNCTION
+# Find Last Salary in Each City
+
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$last:"$Salary"}
+        }
+    }
+])
+9. PUSH FUNCTION
+# Store All Salaries of Each City in an Array
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$push:"$Salary"}
+        }
+    }
+])
+
+10. ADDTOSET FUNCTION
+
+### Store Unique Salaries of Each City in an Array
+
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$addToSet:"$Salary"}
+        }
+    }
+])
+
+# AGGREGATE FUNCTION BASIC SYNTAX
+
+db.collection.aggregate([
+    {
+        $group:{
+            _id:"$FieldName",
+            result:{$FUNCTION:"$FieldName"}
+        }
+    }
+])
+
+
+---
+
+# IMPORTANT AGGREGATE FUNCTIONS
+
+$sum
+# Adds values / counts documents
+
+$avg
+# Calculates average
+
+$min
+# Finds minimum value
+
+$max
+# Finds maximum value
+
+$first
+# Gets first value
+
+$last
+# Gets last value
+
+$push
+# Adds all values to an array
+# Duplicates allowed
+
+$addToSet
+# Adds unique values to an array
+# Duplicates not allowed
+
+N:
+
+# SUM
+{$sum:"$Salary"}
+
+# AVG
+{$avg:"$Salary"}
+
+# MIN
+{$min:"$Salary"}
+
+# MAX
+{$max:"$Salary"}
+
+# FIRST
+{$first:"$Salary"}
+
+# LAST
+{$last:"$Salary"}
+
+# PUSH
+{$push:"$Salary"}
+
+# ADDTOSET
+{$addToSet:"$Salary"}
+
+
+---
+
+# COUNT PATTERN
+
+db.col.aggregate([
+    {
+        $group:{
+            _id:"$City",
+            cityCount:{$sum:1}
+        }
+    }
+])
+
+# Remember:
+# $sum:1 = COUNT
